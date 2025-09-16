@@ -13,9 +13,7 @@ from openai import OpenAI
 MODEL_MAP = {
     # 顯示名稱 (鍵) : 技術 ID (值)
     # Display Name (Key) : Technical ID (Value)
-    "DeepSeek: DeepSeek R1 (Free)": "deepseek/deepseek-r1:free",
     "Meta: Llama 4 Maverick (Free)": "meta-llama/llama-4-maverick:free",
-    "Moonshot: Kimi K2 (Free)": "moonshotai/kimi-k2:free"
 }
 
 # --- 功能函式定義 ---
