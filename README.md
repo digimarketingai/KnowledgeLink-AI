@@ -40,7 +40,7 @@
 
     執行此指令後，應用程式將啟動並在終端機輸出中提供一個公開的 Gradio 連結。
     ```bash
-    python app.py
+    python -u app.py --api-key "" --knowledge-file ""
     ```
 
 #### 🛠️ 如何使用 Web UI
@@ -91,7 +91,7 @@ Follow the steps below to launch your AI chatbot.
 
     After running this command, the application will start and provide a public Gradio link in the output.
     ```bash
-    python app.py
+    python -u app.py --api-key "" --knowledge-file ""
     ```
 
 #### 🛠️ How to Use the Web UI
