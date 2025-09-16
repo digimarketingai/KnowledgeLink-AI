@@ -60,13 +60,6 @@
 3.  點擊 **「✅ 啟動 AI 聊天機器人 / Activate AI Chatbot」** 按鈕。
 4.  介面將切換至**聊天模式**，您現在可以用中文或英文開始提問了！
 
-#### 📂 檔案結構
-
--   `app.py`: 包含所有後端邏輯和雙語 Gradio UI 的主要 Python 腳本。
--   `requirements.txt`: 定義專案所需的 Python 套件。
--   `README.md`: 您正在閱讀的這份文件。
--   `.gitignore`: 告訴 Git 要忽略哪些檔案或目錄。
-
 ---
 
 ### English
@@ -124,14 +117,3 @@ Follow the steps below to launch your AI chatbot.
     -   **"上傳您的知識庫文件 / Upload your knowledge base file"** (must be a `.txt` file).
 3.  Click the **"✅ 啟動 AI 聊天機器人 / Activate AI Chatbot"** button.
 4.  The interface will switch to the **Chat Mode**, and you can now start asking questions in either Chinese or English!
-
-#### 📂 File Structure
-
--   `app.py`: The main Python script containing all backend logic and the bilingual Gradio UI.
--   `requirements.txt`: Defines the required Python packages for the project.
--   `README.md`: The document you are currently reading.
--   `.gitignore`: Tells Git which files or directories to ignore.
-
----
-
-Created by [digimarketingai].
