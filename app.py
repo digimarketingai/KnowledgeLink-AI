@@ -1,4 +1,4 @@
-#@title 🚀 All-in-One Chatbot Launcher
+#@title 🚀 All-in-One Chatbot Launcher (v5.0 - Command-Line Ready)
 #@markdown 1.  **Enter your API Key** in the input box below.
 #@markdown 2.  **Run this cell**. An upload button will appear after the initial setup.
 #@markdown 3.  **Click "Choose Files"** and upload your `.txt` knowledge base file.
@@ -26,14 +26,14 @@ APP_PY_CODE = textwrap.dedent("""
     import os
     import sys
     import warnings
+    import argparse # <-- NEW: Import argparse
 
     # Suppress known warnings to keep the log clean
     warnings.filterwarnings("ignore", category=UserWarning)
     warnings.filterwarnings("ignore", category=DeprecationWarning)
 
     # --- Model Configuration ---
-    # As requested, using only the specified model.
-    MODEL_NAME = "meta-llama/llama-4-maverick:free"
+    MODEL_NAME = "openrouter:meta-llama/llama-4-maverick:free"
 
     # --- Core Functions ---
     def chat_response(message, history, state):
@@ -75,13 +75,15 @@ APP_PY_CODE = textwrap.dedent("""
 
     # --- Main Execution Block ---
     if __name__ == "__main__":
-        API_KEY = os.getenv("OPENROUTER_API_KEY")
-        KNOWLEDGE_FILE_PATH = os.getenv("KNOWLEDGE_FILE_PATH")
-        
-        if not API_KEY or not KNOWLEDGE_FILE_PATH:
-            print("FATAL ERROR: API_KEY or KNOWLEDGE_FILE_PATH not found in environment.", file=sys.stderr)
-            sys.exit(1)
+        # NEW: Set up and parse command-line arguments
+        parser = argparse.ArgumentParser(description="Launch a Gradio chatbot with a knowledge base.")
+        parser.add_argument("--api-key", required=True, help="Your OpenRouter API key.")
+        parser.add_argument("--knowledge-file", required=True, help="Path to the .txt knowledge base file.")
+        args = parser.parse_args()
 
+        API_KEY = args.api_key
+        KNOWLEDGE_FILE_PATH = args.knowledge_file
+        
         knowledge_base = read_knowledge_file(KNOWLEDGE_FILE_PATH)
         if knowledge_base is None:
             print(f"FATAL ERROR: Could not read or decode the file at {KNOWLEDGE_FILE_PATH}", file=sys.stderr)
@@ -107,8 +109,6 @@ APP_PY_CODE = textwrap.dedent("""
             gr.Markdown("# AI 線上支援中心\\n# AI Online Support Center")
             gr.Markdown("您好！我是您的 AI 助理。/ Hello! I am your AI assistant.")
             
-            # THE FIX: Removed the custom `chatbot` argument entirely.
-            # This allows ChatInterface to create a perfectly compatible chatbot, resolving the error.
             gr.ChatInterface(
                 fn=chat_response,
                 type="messages",
@@ -145,16 +145,21 @@ HTML_TEMPLATE = """
 </div>
 """
 
-def run_app_and_generate_embed(env_vars):
-    # Use 'python -u' for unbuffered output to ensure we see the URL in Colab.
-    command = ["python", "-u", "app.py"]
+def run_app_and_generate_embed(api_key, knowledge_file_path):
+    # NEW: Build the command with command-line arguments
+    command = [
+        "python", "-u", "app.py",
+        "--api-key", api_key,
+        "--knowledge-file", knowledge_file_path
+    ]
+    
+    # The `env` argument is no longer needed
     process = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
-        encoding='utf-8',
-        env=env_vars
+        encoding='utf-8'
     )
     
     url_pattern = re.compile(r'(https?://[a-zA-Z0-9-]+\.gradio\.live)')
@@ -200,8 +205,6 @@ else:
         if not file_name.endswith('.txt'):
             print(f"\n❌ Invalid file type: '{file_name}'. Please upload a .txt file.")
         else:
-            app_env = os.environ.copy()
-            app_env["OPENROUTER_API_KEY"] = OPENROUTER_API_KEY
-            app_env["KNOWLEDGE_FILE_PATH"] = file_name
             clear_output()
-            run_app_and_generate_embed(env_vars=app_env)
+            # NEW: Call the launcher with arguments instead of environment variables
+            run_app_and_generate_embed(api_key=OPENROUTER_API_KEY, knowledge_file_path=file_name)
