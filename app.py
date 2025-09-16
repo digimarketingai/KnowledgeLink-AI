@@ -72,21 +72,42 @@ def activate_service(api_key, knowledge_file, model_display_name):
             "請從下拉選單中選擇一個模型。 / Please choose a model from the dropdown list."
         )
 
-    try:
-        file_path = knowledge_file.name
-        if not file_path.endswith('.txt'):
-             raise gr.Error(
-                "不支援的檔案格式！ / Unsupported file format!",
-                "請僅上傳 .txt 檔案。 / Please upload only .txt files."
-            )
-        with open(file_path, 'r', encoding='utf-8') as f:
-            knowledge_base = f.read()
+    # --- FIX: Robust File Reading ---
+    # --- 修正：穩健的檔案讀取 ---
+    # To prevent UnicodeDecodeError, we try a list of common text encodings.
+    # This handles files saved with different default encodings (e.g., from Windows).
+    # 為了防止 UnicodeDecodeError，我們嘗試一系列常見的文字編碼。
+    # 這可以處理以不同預設編碼儲存的檔案（例如來自 Windows 系統）。
+    knowledge_base = None
+    encodings_to_try = ['utf-8', 'big5', 'gbk', 'utf-16', 'latin-1']
+    file_path = knowledge_file.name
 
-    except Exception as e:
+    if not file_path.endswith('.txt'):
         raise gr.Error(
-            f"讀取檔案時出錯：{e} / Error reading file: {e}",
-            "請確保檔案是有效且未損壞的 .txt 檔案。 / Please ensure the file is a valid, uncorrupted .txt file."
+            "不支援的檔案格式！ / Unsupported file format!",
+            "請僅上傳 .txt 檔案。 / Please upload only .txt files."
         )
+
+    for encoding in encodings_to_try:
+        try:
+            with open(file_path, 'r', encoding=encoding) as f:
+                knowledge_base = f.read()
+            print(f"Successfully read file with encoding: {encoding}")
+            break  # Stop if successful
+        except UnicodeDecodeError:
+            print(f"Failed to read with encoding: {encoding}. Trying next...")
+            continue # Try the next encoding
+        except Exception as e:
+            raise gr.Error(f"讀取檔案時發生非預期錯誤：{e} / An unexpected error occurred while reading the file: {e}")
+
+    # If knowledge_base is still None after the loop, no encoding worked.
+    # 如果迴圈結束後 knowledge_base 仍然是 None，表示所有編碼都失敗了。
+    if knowledge_base is None:
+        raise gr.Error(
+            "無法解碼檔案！ / Could not decode the file!",
+            "您上傳的 .txt 檔案編碼不受支援。請嘗試將其另存為 UTF-8 格式後再重新上傳。 / The encoding of your uploaded .txt file is not supported. Please try saving it as UTF-8 and re-uploading."
+        )
+    # --- END FIX ---
 
     system_prompt = f"""
     You are a professional customer service assistant. Your primary task is to answer user questions based *only* on the "Knowledge Base" provided below.
@@ -152,14 +173,6 @@ with gr.Blocks(theme=gr.themes.Soft(), title="AI 知識庫客服 / KnowledgeLink
         gr.Markdown("# AI 線上支援中心\n# AI Online Support Center")
         gr.Markdown("您好！我是您的 AI 助理，今天有什麼可以幫助您的嗎？ / Hello! I am your AI assistant. How can I help you today?")
         
-        # --- FIX ---
-        # Removed 'retry_btn', 'undo_btn', and 'clear_btn' parameters.
-        # These are not supported in older versions of Gradio and were causing a TypeError.
-        # The interface will now use the default buttons for your Gradio version.
-        # --- 修正 ---
-        # 移除了 'retry_btn', 'undo_btn', 和 'clear_btn' 參數。
-        # 較舊的 Gradio 版本不支援這些參數，它們會導致 TypeError 錯誤。
-        # 介面現在將使用您 Gradio 版本的預設按鈕。
         gr.ChatInterface(
             fn=chat_response,
             title="AI 知識庫客服 / KnowledgeLink AI Chatbot",
