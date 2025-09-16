@@ -14,7 +14,6 @@ MODEL_MAP = {
     # 顯示名稱 (鍵) : 技術 ID (值)
     # Display Name (Key) : Technical ID (Value)
     "DeepSeek: DeepSeek R1 (Free)": "deepseek/deepseek-r1:free",
-    "Google: Gemma 3N 4B (Free)": "google/gemma-3n-e4b-it:free",
     "Meta: Llama 4 Maverick (Free)": "meta-llama/llama-4-maverick:free",
     "Moonshot: Kimi K2 (Free)": "moonshotai/kimi-k2:free"
 }
