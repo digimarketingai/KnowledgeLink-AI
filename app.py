@@ -9,9 +9,7 @@ from openai import OpenAI
 # --- Bilingual UI Text & Configuration ---
 
 # 使用字典將使用者易於理解的顯示名稱映射到後端所需的技術模型標識符。
-# 這樣可以讓 UI 介面更簡潔，同時確保後端使用正確的 API 代碼。
 # A dictionary to map user-friendly display names to the required technical model identifiers.
-# This allows the UI to be clean while the backend uses the correct code.
 MODEL_MAP = {
     # 顯示名稱 (鍵) : 技術 ID (值)
     # Display Name (Key) : Technical ID (Value)
@@ -81,8 +79,6 @@ def activate_service(api_key, knowledge_file, model_display_name):
                 "不支援的檔案格式！ / Unsupported file format!",
                 "請僅上傳 .txt 檔案。 / Please upload only .txt files."
             )
-        # 讀取上傳的 .txt 檔案內容。
-        # Read the content of the uploaded .txt file.
         with open(file_path, 'r', encoding='utf-8') as f:
             knowledge_base = f.read()
 
@@ -106,8 +102,6 @@ def activate_service(api_key, knowledge_file, model_display_name):
     --- END KNOWLEDGE BASE ---
     """
 
-    # 根據使用者選擇的顯示名稱，查找對應的技術模型名稱。
-    # Look up the technical model name from the display name selected by the user.
     technical_model_name = MODEL_MAP[model_display_name]
 
     client = OpenAI(
@@ -147,10 +141,15 @@ with gr.Blocks(theme=gr.themes.Soft(), title="AI 知識庫客服 / KnowledgeLink
             info="您的金鑰僅用於本次會話，不會被儲存。 / Your key is used only for this session and is not stored."
         )
         
+        # --- FIX ---
+        # The 'info' parameter was removed from gr.File below because it is not supported in all versions of Gradio.
+        # This prevents the TypeError you encountered.
+        # --- 修正 ---
+        # 下方的 gr.File 元件移除了 'info' 參數，因為並非所有 Gradio 版本都支援它。
+        # 這樣可以避免您遇到的 TypeError 錯誤。
         knowledge_upload = gr.File(
             label="上傳知識庫文件（僅限 .txt） / Upload Knowledge Base File (.txt only)",
-            file_types=['.txt'],
-            info="上傳 AI 將用作知識來源的 .txt 文件。 / Upload the .txt file that the AI will use as its knowledge source."
+            file_types=['.txt']
         )
         
         activate_button = gr.Button("✅ 啟動 AI 聊天機器人 / Activate AI Chatbot", variant="primary")
