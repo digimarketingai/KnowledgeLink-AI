@@ -4,7 +4,7 @@ This document is available in English and Traditional Chinese. | 本文提供英
 
 ---
 
-### 🇬🇧 English
+### English
 
 **KnowledgeLink AI** is a powerful, rapidly deployable AI customer service chatbot. It reads knowledge base documents you provide (.txt, .doc, .docx) and offers real-time, accurate, bilingual Q&A services to your users through a public web interface.
 
@@ -76,7 +76,7 @@ Follow the steps below to launch your AI chatbot.
 
 ---
 
-### 🇹🇼 繁體中文說明 (Traditional Chinese)
+### 繁體中文說明 (Traditional Chinese)
 
 **KnowledgeLink AI** 是一個強大的、可快速部署的 AI 客服聊天機器人。它能讀取您提供的知識庫文件（.txt, .doc, .docx），並透過一個公開的 Web 介面，為您的用戶提供即時、準確的雙語問答服務。
 
