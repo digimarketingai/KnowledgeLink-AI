@@ -1,4 +1,4 @@
-#@title 🚀 All-in-One Chatbot Launcher (v5.0 - Command-Line Ready)
+#@title 🚀 All-in-One Chatbot Launcher
 #@markdown 1.  **Enter your API Key** in the input box below.
 #@markdown 2.  **Run this cell**. An upload button will appear after the initial setup.
 #@markdown 3.  **Click "Choose Files"** and upload your `.txt` knowledge base file.
