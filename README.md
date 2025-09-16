@@ -36,14 +36,7 @@
     cd KnowledgeLink-AI
     ```
 
-3.  **安裝 Python 套件**
-
-    此指令會讀取 `requirements.txt` 檔案並安裝所有必要的 Python 函式庫。
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **執行應用程式**
+3.  **執行應用程式**
 
     執行此指令後，應用程式將啟動並在終端機輸出中提供一個公開的 Gradio 連結。
     ```bash
@@ -94,14 +87,7 @@ Follow the steps below to launch your AI chatbot.
     cd KnowledgeLink-AI
     ```
 
-3.  **Install Python Packages**
-
-    This command reads the `requirements.txt` file and installs all necessary Python libraries.
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Run the Application**
+3.  **Run the Application**
 
     After running this command, the application will start and provide a public Gradio link in the output.
     ```bash
