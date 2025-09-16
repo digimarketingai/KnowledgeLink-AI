@@ -13,11 +13,11 @@ from openai import OpenAI
 MODEL_MAP = {
     # 顯示名稱 (鍵) : 技術 ID (值)
     # Display Name (Key) : Technical ID (Value)
-    "Google: Gemini 2.0 Flash (Free)": "openrouter:google/gemini-2.0-flash-exp:free",
-    "DeepSeek: DeepSeek R1 (Free)": "openrouter:deepseek/deepseek-r1:free",
-    "Google: Gemma 3N 4B (Free)": "openrouter:google/gemma-3n-e4b-it:free",
-    "Meta: Llama 4 Maverick (Free)": "openrouter:meta-llama/llama-4-maverick:free",
-    "Moonshot: Kimi K2 (Free)": "openrouter:moonshotai/kimi-k2:free"
+    "Google: Gemini 2.0 Flash (Free)": "google/gemini-2.0-flash-exp:free",
+    "DeepSeek: DeepSeek R1 (Free)": "deepseek/deepseek-r1:free",
+    "Google: Gemma 3N 4B (Free)": "google/gemma-3n-e4b-it:free",
+    "Meta: Llama 4 Maverick (Free)": "meta-llama/llama-4-maverick:free",
+    "Moonshot: Kimi K2 (Free)": "moonshotai/kimi-k2:free"
 }
 
 # --- 功能函式定義 ---
